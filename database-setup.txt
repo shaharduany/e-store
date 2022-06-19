@@ -29,8 +29,13 @@ CREATE TABLE purchases (
 CREATE TABLE public.users
 (
     id serial,
-    username text,
-    user_password text,
+    username varchar(64),
+    display_name varchar(64),
+    email varchar(126),
+    pwd_hash varchar(32),
+    pwd_salt varchar(32),
+    external_type varchar(16),
+    external_id varchar(64),
     history INTEGER [],
     role INTEGER REFERENCES roles,
     PRIMARY KEY (id)
@@ -43,7 +48,7 @@ CREATE TABLE public.access_tokens
 (
     id serial,
     access_token text,
-    user_id integer,
+    user_id INTEGER REFERENCES users,
     PRIMARY KEY (id)
 )
 WITH (
