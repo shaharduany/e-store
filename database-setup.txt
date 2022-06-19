@@ -13,15 +13,16 @@ CREATE TABLE product (
     name VARCHAR(256) UNIQUE,
     description text,
     price float,
-    genre INTEGER [],
+    genre INTEGER REFERENCES genre,
     image TEXT,
     PRIMARY KEY(id)
 );
 
-CREATE TABLE purchase (
+CREATE TABLE purchases (
     id SERIAL,
     date DATE DEFAULT NOW(),
     products INTEGER [],
+    buyer INTEGER REFERENCES public.users,
     PRIMARY KEY(id)
 );
 
