@@ -1,0 +1,50 @@
+CREATE TABLE genre (
+    id SERIAL PRIMARY KEY,
+    name TEXT UNIQUE
+);
+
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    role VARCHAR(256) UNIQUE
+);
+
+CREATE TABLE product (
+    id SERIAL,
+    name VARCHAR(256) UNIQUE,
+    description text,
+    price float,
+    genre INTEGER [],
+    image TEXT,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE purchase (
+    id SERIAL,
+    date DATE DEFAULT NOW(),
+    products INTEGER [],
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE public.users
+(
+    id serial,
+    username text,
+    user_password text,
+    history INTEGER [],
+    role INTEGER REFERENCES roles,
+    PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+);
+
+CREATE TABLE public.access_tokens
+(
+    id serial,
+    access_token text,
+    user_id integer,
+    PRIMARY KEY (id)
+)
+WITH (
+    OIDS = FALSE
+);

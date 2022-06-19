@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://shaharduany:2gTigJDHZ5ZFgM03@cluster0.nhfj9.mongodb.net/Ecommerce-shop?retryWrites=true&w=majority",
+    "secret": "thiskeyissecretdog"
+}
