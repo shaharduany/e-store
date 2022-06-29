@@ -22,7 +22,6 @@ Genre.init(
 		indexes: [
 			{
 				fields: ["name"],
-				unique: true,
 				using: "BTREE",
 			},
 		],

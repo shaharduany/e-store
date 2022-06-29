@@ -12,17 +12,21 @@ Purchases.init(
 			primaryKey: true,
 		},
 		products: {
-			type: DataTypes.ARRAY,
+			type: DataTypes.ARRAY(DataTypes.INTEGER),
 			allowNull: false,
 		},
 		buyer: {
 			type: DataTypes.INTEGER,
 			references: {
-				model: "user",
+				model: "users",
 				key: "id",
 			},
 		},
 		price: DataTypes.FLOAT,
+		purchased_at: {
+			type: DataTypes.DATE,
+			defaultValue: DataTypes.NOW,
+		}
 	},
 	{
 		sequelize,

@@ -29,7 +29,7 @@ Product.init(
 		genre: {
 			type: DataTypes.INTEGER,
 			references: {
-				model: "genre",
+				model: "genres",
 				key: "id",
 			},
 		},
@@ -45,8 +45,7 @@ Product.init(
 			},
             {
                 fields: ["title"],
-                using: "gin",
-                unique: true,
+				using: "BTREE",
             },
 		],
 	}

@@ -16,7 +16,7 @@ Role.init(
 			allowNull: false,
 		},
 	},
-	{ sequelize, modelName: "role" }
+	{ sequelize, modelName: "roles" }
 );
 
 export default Role;

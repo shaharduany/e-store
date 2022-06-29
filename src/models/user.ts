@@ -42,13 +42,13 @@ User.init(
 		pwd_hash: DataTypes.STRING,
 		pwd_salt: DataTypes.STRING,
 		history: {
-			type: DataTypes.ARRAY,
+			type: DataTypes.ARRAY(DataTypes.INTEGER),
 			defaultValue: [],
 		},
 		role: {
 			type: DataTypes.INTEGER,
 			references: {
-				model: Role,
+				model: "roles",
 				key: "id",
 			},
 			defaultValue: 1,
@@ -60,7 +60,7 @@ User.init(
 		indexes: [
 			{
 				fields: ["email"],
-				unique: true,
+				using: "BTREE"
 			},
 		],
 	}
