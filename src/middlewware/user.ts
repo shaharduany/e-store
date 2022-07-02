@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router, RequestHandler, NextFunction } from "express";
 import { google } from "googleapis";
 import dotenv from "dotenv";
 
@@ -19,6 +19,14 @@ const redirectUrl = oauth2Client.generateAuthUrl({
 	access_type: "offline",
 	prompt: "consent",
 	scope: ["email", "profile"],
+});
+
+
+router.get("/", async (req, res, next) => {
+	req.session.isLogged = true;
+	req.session.save();
+	console.log("session saved");
+	res.send("saved");
 });
 
 router.get("/api/login", async function (req, res) {
