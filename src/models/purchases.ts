@@ -34,4 +34,6 @@ Purchases.init(
 	}
 );
 
+Purchases.sync();
+
 export default Purchases;

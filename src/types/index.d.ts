@@ -1,11 +1,12 @@
-import { Session,  SessionData } from "express-session";
+import {  SessionData as OldSessData } from "express-session";
+import { UserI } from '../models/user';
 
-declare module "express-session" {
-    interface SessionData {
-        isLogged: boolean;
-    }
+declare global {
+    namespace Express {
+        interface SessionData extends OldSessData {
+            isLogged: boolean;
+        }
 
-    interface Session {
-        isLogged: boolean;
+        interface User extends UserI {}
     }
 }

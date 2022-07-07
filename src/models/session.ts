@@ -2,6 +2,7 @@ import sequelize from "./pg-sequelize";
 import store from "connect-session-sequelize";
 import buildSession from "express-session";
 import { Model, DataTypes } from "sequelize";
+import { SECRET } from "../lib/secrets";
 
 const SessionStore = store(buildSession.Store);
 
@@ -20,6 +21,13 @@ Session.init(
 			type: DataTypes.JSON,
 			defaultValue: {},
 		},
+		user: {
+			type: DataTypes.INTEGER,
+			references: {
+				model: "users",
+				key: "id"
+			}
+		}
 	},
 	{
 		sequelize,
@@ -30,16 +38,19 @@ Session.init(
 				name: "session_id_index",
 			},
 		],
+		modelName: "sessions"
 	}
 );
 
 const mySessionStore = new SessionStore({
 	db: sequelize,
-	table: "Sessions"
+	table: "sessions"
 });
 
+Session.sync();
+
 export const session = buildSession({
-	secret: "mysecret",
+	secret: SECRET,
 	resave: false,
 	saveUninitialized: false,
 	store: mySessionStore,

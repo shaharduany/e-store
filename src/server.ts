@@ -3,18 +3,20 @@ import express, { Express } from "express";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import bodyParser from "body-parser";
+import passport from "passport";
 
 import productRouter from "./middlewware/products";
 import userRouter from "./middlewware/user";
 import swaggerDocument from "./lib/swagger";
 import { session } from "./models/session";
 
-import Role from "./models/role";
-import User from "./models/user";
-import Genre from "./models/genre";
-import Product from "./models/product";
-import Purchases from "./models/purchases";
-import Session from "./models/session";
+import "./models/role";
+import "./models/user";
+import "./models/genre";
+import "./models/product";
+import "./models/purchases";
+import "./models/session";
+import "./middlewware/auth";
 
 import sequelize from "./models/pg-sequelize";
 
@@ -33,11 +35,12 @@ export default class Server {
 	extendtions() {
 		this.app.use(bodyParser.urlencoded());
 		this.app.use(session);
+		this.app.use(passport.initialize());
+		this.app.use(passport.session());
 	}
 
 	async databaseSetup() {
-		await sequelize.sync();
-		setTimeout(() => {}, 500)
+		sequelize.sync();
 		console.log("started datbase");
 	}
 

@@ -19,4 +19,25 @@ Role.init(
 	{ sequelize, modelName: "roles" }
 );
 
+Role.sync();
+
+export async function getCostumerRole(){
+	const costumerRole = await Role.findOrCreate({
+		where: {
+			role_name: "costumer"
+		}
+	});
+
+	return costumerRole;
+}
+
+export async function getAdminRole(){
+	const adminRole = await Role.findOrCreate({
+		where: {
+			role_name: "admin"
+		}
+	});
+
+	return adminRole;
+}
 export default Role;

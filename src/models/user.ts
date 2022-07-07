@@ -39,8 +39,6 @@ User.init(
 			type: DataTypes.STRING,
 			allowNull: true,
 		},
-		pwd_hash: DataTypes.STRING,
-		pwd_salt: DataTypes.STRING,
 		history: {
 			type: DataTypes.ARRAY(DataTypes.INTEGER),
 			defaultValue: [],
@@ -53,6 +51,10 @@ User.init(
 			},
 			defaultValue: 1,
 		},
+		googleId: {
+			type: DataTypes.STRING,
+			unique: true
+		}
 	},
 	{
 		sequelize,
@@ -62,8 +64,22 @@ User.init(
 				fields: ["email"],
 				using: "BTREE"
 			},
+			{
+				fields: ["googleId"],
+				unique: true
+			}
 		],
 	}
 );
 
+User.sync();
+
+export type UserI = User & Partial<{
+	id: number;
+	username: string;
+	image: string;
+	email: string;
+	history: number[];
+	googleId: string;
+}>
 export default User;

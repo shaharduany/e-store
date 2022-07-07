@@ -1,5 +1,6 @@
 import sequelize from "./pg-sequelize";
 import { Model, DataTypes } from "sequelize";
+import { prod_tt_sasportal } from "googleapis/build/src/apis/prod_tt_sasportal";
 
 class Product extends Model {}
 /**
@@ -50,5 +51,7 @@ Product.init(
 		],
 	}
 );
+
+Product.sync();
 
 export default Product;

@@ -28,4 +28,6 @@ Genre.init(
 	}
 );
 
+Genre.sync();
+
 export default Genre;

@@ -22,13 +22,6 @@ const redirectUrl = oauth2Client.generateAuthUrl({
 });
 
 
-router.get("/", async (req, res, next) => {
-	req.session.isLogged = true;
-	req.session.save();
-	console.log("session saved");
-	res.send("saved");
-});
-
 router.get("/api/login", async function (req, res) {
 	let oauth2 = google.oauth2({ auth: oauth2Client, version: "v2" });
 	if (req.session) {
