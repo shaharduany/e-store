@@ -1,4 +1,3 @@
-// I test this comment
 import express, { Express } from "express";
 import cors from "cors";
 import swaggerUI from "swagger-ui-express";
@@ -27,7 +26,7 @@ export default class Server {
 	constructor() {
 		this.port = 4000;
 		this.app = express();
-		this.databaseSetup();
+		
 		this.extendtions();
 		this.middleware();
 	}
@@ -45,10 +44,6 @@ export default class Server {
 	}
 
 	middleware() {
-		this.app.get("/", (req, res) => {
-			console.log(req.user?.id);
-			res.send(`<a href="/api/auth/login"> signup </a>`);
-		});
 		this.app.use(productRouter);
 		this.app.use(authRoter);
 		this.app.use(cors());

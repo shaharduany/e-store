@@ -57,7 +57,7 @@ passport.deserializeUser(async (id: number | undefined, done) => {
 const router = Router();
 
 router.get(
-	"/api/auth/login",
+	"/api/auth/login/google",
 	passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
@@ -68,5 +68,9 @@ router.get(
 		successRedirect: "/",
 	})
 );
+
+router.get("/api/auth/logout", (req, res, next) => {
+	req.logout({ keepSessionInfo: false}, () => console.log("logged out"));
+})
 
 export default router;
