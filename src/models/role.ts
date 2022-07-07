@@ -28,7 +28,7 @@ export async function getCostumerRole(){
 		}
 	});
 
-	return costumerRole;
+	return costumerRole[0];
 }
 
 export async function getAdminRole(){
@@ -38,6 +38,6 @@ export async function getAdminRole(){
 		}
 	});
 
-	return adminRole;
+	return adminRole[0];
 }
 export default Role;

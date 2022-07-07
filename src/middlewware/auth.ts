@@ -34,7 +34,7 @@ passport.use(
 						email: profile.emails?.[0].value,
 						image: profile.photos?.[0].value,
 						username: profile.displayName,
-						role: choosenRole[0].getDataValue("id")
+						role: choosenRole.getDataValue("id")
 					},
 				});
 				return done(null, newUser);
