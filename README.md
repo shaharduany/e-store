@@ -13,5 +13,7 @@ I reformed my previous application using TypeScript
 5. React.js
 6. Redux
 7. Bootstrap
-8. Google-API
+8. Passport.js
 9. Swagger UI
+10. Google authentication
+11. Express Session

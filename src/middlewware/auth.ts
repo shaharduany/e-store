@@ -1,8 +1,10 @@
-import passport, { use } from "passport";
+import passport from "passport";
 import passportGoogle from "passport-google-oauth20";
 import dotenv from "dotenv";
-import { GOOGLE_CLIENT, GOOGLE_SECRET } from "../lib/secrets";
+import { googleClient, googleSecret } from "../lib/secrets";
+import { Router } from "express";
 import User from "../models/user";
+import { getAdminRole, getCostumerRole } from "../models/role";
 
 dotenv.config();
 
@@ -11,22 +13,34 @@ const GoogleStrategy = passportGoogle.Strategy;
 passport.use(
 	new GoogleStrategy(
 		{
-			clientID: GOOGLE_CLIENT,
-			clientSecret: GOOGLE_SECRET,
+			clientID: googleClient,
+			clientSecret: googleSecret,
 			callbackURL: "/auth/google/callback",
 		},
 		async (accessToken, refreshToken, profile, done) => {
-			const [newUser, created] = await User.findOrCreate({
-				where: {
-					gooogleId: profile.id,
-				},
-				defaults: {
-					email: profile.emails?.[0].value,
-					Image: profile.photos?.[0].value,
-					username: profile.displayName,
-				},
-			});
-			return done(null, newUser);
+			try {
+				const costRole = await getCostumerRole();
+				const adminRole = await getAdminRole();
+				let choosenRole = costRole;
+				if(profile.emails?.[0].value === "shahar.duany@gmail.com"){
+					choosenRole = adminRole;
+				}
+
+				const [newUser, created] = await User.findOrCreate({
+					where: {
+						googleId: profile.id,
+					},
+					defaults: {
+						email: profile.emails?.[0].value,
+						image: profile.photos?.[0].value,
+						username: profile.displayName,
+						role: choosenRole[0].getDataValue("id")
+					},
+				});
+				return done(null, newUser);
+			} catch (err) {
+				console.log(err);	
+			}
 		}
 	)
 );
@@ -37,5 +51,22 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id: number | undefined, done) => {
 	const user = await User.findByPk(id);
-    done(null, user);
+	done(null, user);
 });
+
+const router = Router();
+
+router.get(
+	"/api/auth/login",
+	passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+router.get(
+	"/auth/google/callback",
+	passport.authenticate("google", {
+		failureRedirect: "/wrong",
+		successRedirect: "/",
+	})
+);
+
+export default router;

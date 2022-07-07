@@ -49,7 +49,6 @@ User.init(
 				model: "roles",
 				key: "id",
 			},
-			defaultValue: 1,
 		},
 		googleId: {
 			type: DataTypes.STRING,

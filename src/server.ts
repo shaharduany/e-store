@@ -6,7 +6,7 @@ import bodyParser from "body-parser";
 import passport from "passport";
 
 import productRouter from "./middlewware/products";
-import userRouter from "./middlewware/user";
+import authRoter from './middlewware/auth';
 import swaggerDocument from "./lib/swagger";
 import { session } from "./models/session";
 
@@ -46,14 +46,11 @@ export default class Server {
 
 	middleware() {
 		this.app.get("/", (req, res) => {
-			console.log("here");
-			req.session.isLogged = true;
-			req.session.save();
-			res.send("saved");
-			console.log("Saved");
-		})
+			console.log(req.user?.id);
+			res.send(`<a href="/api/auth/login"> signup </a>`);
+		});
 		this.app.use(productRouter);
-		this.app.use(userRouter);
+		this.app.use(authRoter);
 		this.app.use(cors());
 		this.app.use(
 			"/api-docs",
