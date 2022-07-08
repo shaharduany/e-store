@@ -64,13 +64,16 @@ router.get(
 router.get(
 	"/auth/google/callback",
 	passport.authenticate("google", {
-		failureRedirect: "/wrong",
-		successRedirect: "/",
+		failureRedirect: "http://localhost:3000/",
+		successRedirect: "http://localhost:3000/",
 	})
 );
 
 router.get("/api/auth/logout", (req, res, next) => {
 	req.logout({ keepSessionInfo: false}, () => console.log("logged out"));
+	res.status(201).json({
+		message: "user logged out"
+	});
 })
 
 export default router;

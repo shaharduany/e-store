@@ -6,6 +6,9 @@ import passport from "passport";
 
 import productRouter from "./middlewware/products";
 import authRoter from './middlewware/auth';
+import adminRouter from "./middlewware/admin";
+import userRouter from './middlewware/user';
+
 import swaggerDocument from "./lib/swagger";
 import { session } from "./models/session";
 
@@ -26,16 +29,26 @@ export default class Server {
 	constructor() {
 		this.port = 4000;
 		this.app = express();
-		
+
 		this.extendtions();
 		this.middleware();
 	}
 
 	extendtions() {
 		this.app.use(bodyParser.urlencoded());
+		this.app.use(bodyParser.json());
+
 		this.app.use(session);
+
 		this.app.use(passport.initialize());
 		this.app.use(passport.session());
+
+		this.app.use(cors());
+		this.app.use(
+			"/api-docs",
+			swaggerUI.serve,
+			swaggerUI.setup(swaggerDocument)
+		);
 	}
 
 	async databaseSetup() {
@@ -46,12 +59,8 @@ export default class Server {
 	middleware() {
 		this.app.use(productRouter);
 		this.app.use(authRoter);
-		this.app.use(cors());
-		this.app.use(
-			"/api-docs",
-			swaggerUI.serve,
-			swaggerUI.setup(swaggerDocument)
-		);
+		this.app.use(adminRouter);
+		this.app.use(userRouter);
 	}
 
 	listen() {

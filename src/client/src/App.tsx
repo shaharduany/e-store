@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import AdminPage from "./components/admin/main-view";
+import Header from "./components/header";
+import { getUserInfo } from "./scripts/auth-scripts";
+const App: React.FC = () => {
+	useEffect(() => {
+		getUserInfo();
+	}, []);
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+	return (
+		<div>
+			<Router>
+				<Header />
+				<div>
+					<h1>header</h1>
+				</div>
+				<Routes>
+					<Route path="/" element={<h1>home</h1>}></Route>
+					<Route path="/admin" element={<AdminPage />}></Route>
+	
+				</Routes>
+			</Router>
+		</div>
+	);
+};
 
 export default App;
