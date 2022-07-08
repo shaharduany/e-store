@@ -4,7 +4,7 @@
   "description": "This is an online store",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"tsc -w\" \"nodemon dist/main.js\""
+    "dev": "concurrently \"tsc -w\" \"nodemon dist/main.js\" \"cd src/client && npm start\""
   },
   "author": "Shahar Duany",
   "license": "ISC",
