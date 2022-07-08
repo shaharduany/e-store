@@ -3,7 +3,7 @@ import passportGoogle from "passport-google-oauth20";
 import dotenv from "dotenv";
 import { googleClient, googleSecret } from "../lib/secrets";
 import { Router } from "express";
-import User from "../models/user";
+import User, { UserI } from "../models/user";
 import { getAdminRole, getCostumerRole } from "../models/role";
 
 dotenv.config();
@@ -45,13 +45,30 @@ passport.use(
 	)
 );
 
+interface UserPass {
+	email: string;
+	id: number;
+	username: string;
+}
+
 passport.serializeUser((user, done) => {
-	done(null, user.id);
+	const userValues = {
+		id: user.getDataValue("id"),
+		email: user.getDataValue("email"),
+		username: user.getDataValue("username"),
+	};
+
+	return done(null, userValues);
 });
 
-passport.deserializeUser(async (id: number | undefined, done) => {
-	const user = await User.findByPk(id);
-	done(null, user);
+passport.deserializeUser(async (userVal: UserPass,  done) => {
+	console.log(`deserialize id: ${userVal.id} email: ${userVal.email}`);
+	const user = await User.findByPk(userVal.id);
+	if(!user){
+		console.log("!user in deserialize");
+		return done(null, false);
+	}
+	return done(null, user);
 });
 
 const router = Router();
@@ -66,7 +83,10 @@ router.get(
 	passport.authenticate("google", {
 		failureRedirect: "http://localhost:3000/",
 		successRedirect: "http://localhost:3000/",
-	})
+	}),
+	(req, res) => {
+		req.session.save();
+	}
 );
 
 router.get("/api/auth/logout", (req, res, next) => {

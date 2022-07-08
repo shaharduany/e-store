@@ -3,12 +3,16 @@ import { UserI } from "../models/user";
 
 declare global {
 	namespace Express {
-		interface User extends UserI {}
+		interface User extends UserI {
+
+		}
 	}
 }
 
 declare module "express-session" {
 	interface SessionData {
 		isLogged: boolean;
+		cart: number[];
+		passport: {user: UserI};
 	}
 }

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getShopItems } from "../../scripts/shop-scripts";
+import ShopItem from "./shop-item";
 
-interface ShopItem {
+export interface ShopItemI {
 	title: string;
 	id: number;
 	description: string;
@@ -10,12 +11,12 @@ interface ShopItem {
 }
 
 const ShopView: React.FunctionComponent = () => {
-	const [products, setProducts] = useState<ShopItem[]>([]);
+	const [products, setProducts] = useState<ShopItemI[]>([]);
 	const [message, setMessage] = useState("");
 
 	useEffect(() => {
 		getShopItems()
-			.then((items: ShopItem[]) => {
+			.then((items: ShopItemI[]) => {
 				if (items.length === 0) {
 					throw new Error("No items found");
 				}
@@ -29,10 +30,13 @@ const ShopView: React.FunctionComponent = () => {
 			{message && <p>{message}</p>}
 			{products &&
 				products.map((value, index) => (
-					<p key={index}>
-						{value.title} {value.description}
-						{value.price} {value.id}
-					</p>
+					<ShopItem
+						key={index}
+						title={value.title}
+						description={value.description}
+						price={value.price}
+						id={value.id}
+					/>
 				))}
 		</div>
 	);

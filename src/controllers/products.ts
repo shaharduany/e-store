@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import Genre from "../models/genre";
 import Product from "../models/product";
+import { userIsValid } from "./user";
 
 export const getProducts: RequestHandler = async (req, res, next) => {
 	let products: Product[] = [];
@@ -52,3 +53,28 @@ export const postSearchProduct: RequestHandler = async (req, res, next) => {
         products,
     });
 };
+
+export const postAddItemToCart: RequestHandler = async(req, res, next) => {
+	try {
+		const { id } = req.body;
+		const product = await Product.findByPk(id);
+		
+		if(!product) {
+			throw new Error("Product wasn't found");
+		}
+		if(!req.session.cart){
+			req.session.cart = [];
+		}
+		req.session.cart.push(id);
+		req.session.save();
+		
+		res.status(201).json({
+			message: "Item was added"
+		});
+	} catch (err) {
+		res.status(422).json({
+			message: `Something went wrong, reason: ${err}`,
+			error: err
+		});
+	}
+}

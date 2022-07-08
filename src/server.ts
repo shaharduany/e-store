@@ -3,6 +3,7 @@ import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import bodyParser from "body-parser";
 import passport from "passport";
+import cookieSession from 'cookie-session';
 
 import productRouter from "./middlewware/products";
 import authRoter from './middlewware/auth';
@@ -21,6 +22,8 @@ import "./models/session";
 import "./middlewware/auth";
 
 import sequelize from "./models/pg-sequelize";
+import cookieParser from "cookie-parser";
+import { SECRET } from "./lib/secrets";
 
 export default class Server {
 	private app: Express;
@@ -39,7 +42,8 @@ export default class Server {
 		this.app.use(bodyParser.json());
 
 		this.app.use(session);
-
+		this.app.use(cookieParser());
+		
 		this.app.use(passport.initialize());
 		this.app.use(passport.session());
 

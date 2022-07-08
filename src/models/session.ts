@@ -26,6 +26,7 @@ Session.init(
 			references: {
 				model: "users",
 				key: "id"
+
 			}
 		}
 	},
@@ -51,9 +52,12 @@ Session.sync();
 
 export const session = buildSession({
 	secret: SECRET,
-	resave: false,
-	saveUninitialized: false,
+	resave: true,
+	saveUninitialized: true,
 	store: mySessionStore,
+	cookie: {
+		maxAge: 3 * 24 * 60 * 60 * 1000,
+	}
 });
 
 export default Session;

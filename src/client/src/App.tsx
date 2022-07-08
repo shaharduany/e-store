@@ -5,10 +5,6 @@ import Header from "./components/layout/header";
 import ShopView from "./components/shop/shop-view";
 import { getUserInfo } from "./scripts/auth-scripts";
 const App: React.FC = () => {
-	useEffect(() => {
-		getUserInfo();
-	}, []);
-
 	return (
 		<div>
 			<Router>

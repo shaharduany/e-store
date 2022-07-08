@@ -6,10 +6,13 @@ import reportWebVitals from "./reportWebVitals";
 
 import { Provider } from "react-redux";
 import store from "./store/root-store";
+import { getUserInfo } from "./scripts/auth-scripts";
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement
 );
+
+getUserInfo();
 root.render(
 	<Provider store={store}>
 		<React.StrictMode>

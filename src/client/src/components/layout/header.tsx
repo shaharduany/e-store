@@ -10,6 +10,7 @@ const Header: React.FunctionComponent = () => {
 	const dispatch = useDispatch();
 	const isLogged = useSelector((state: RootState) => state.user.isLogged);
 	const role = useSelector((state: RootState) => state.user.role);
+	const cart = useSelector((state: RootState) => state.cart.items);
 
 	let isAdmin = role === Role.admin;
 
@@ -49,6 +50,9 @@ const Header: React.FunctionComponent = () => {
 					<div>
 						<li>
 							<Link to="/account">ACCOUNT</Link>
+						</li>
+						<li>
+							Cart Items: {cart.length}
 						</li>
 						<button onClick={logoutClickHandler}>LOGOUT</button>
 					</div>
