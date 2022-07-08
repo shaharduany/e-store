@@ -3,8 +3,8 @@ import React, { useEffect, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { RootState } from "../store/root-store";
-import { logout, Role } from "../store/user-store";
+import { RootState } from "../../store/root-store";
+import { logout, Role } from "../../store/user-store";
 
 const Header: React.FunctionComponent = () => {
 	const dispatch = useDispatch();

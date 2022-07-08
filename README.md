@@ -11,9 +11,10 @@ I reformed my previous application using TypeScript
 3. PostgreSQL
 4. Sequelize
 5. React.js
-6. Redux
+6. Redux (React-Redux && Redux-Toolkit)
 7. Bootstrap
 8. Passport.js
 9. Swagger UI
 10. Google authentication
 11. Express Session
+12. Axios

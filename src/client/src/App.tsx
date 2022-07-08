@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import AdminPage from "./components/admin/main-view";
-import Header from "./components/header";
+import Header from "./components/layout/header";
 import ShopView from "./components/shop/shop-view";
 import { getUserInfo } from "./scripts/auth-scripts";
 const App: React.FC = () => {
