@@ -34,6 +34,9 @@ const Header: React.FunctionComponent = () => {
 				<li>
 					<Link to="/shop">SHOP</Link>
 				</li>
+				<li>
+					<Link to="/cart">Cart Items: {cart.length}</Link>
+				</li>
 				{!isLogged && (
 					<div>
 						<a href={"http://localhost:4000/api/auth/login/google"}>
@@ -50,9 +53,6 @@ const Header: React.FunctionComponent = () => {
 					<div>
 						<li>
 							<Link to="/account">ACCOUNT</Link>
-						</li>
-						<li>
-							Cart Items: {cart.length}
 						</li>
 						<button onClick={logoutClickHandler}>LOGOUT</button>
 					</div>

@@ -5,30 +5,46 @@ import { login, UserI } from "../store/user-store";
 
 export async function getUserInfo() {
 	try{
-		const req = await axios.get("/api/user/get-start-info", {
+		const config = {
 			headers: { "Content-Type": "application/json" },
 			withCredentials: true,
-		});
-		const data = req.data;
+		};
+
+		const userReq = await axios.get("/api/user/get-start-info", config);
+		const data = userReq.data;
 	
 		if(!data || data.error || !data.email || !data.username || !data.role){
 			console.log(data.message);
 			return;
 		}
-	
-		const cart = data.cart;
-	
+		
 		const user: UserI = {
 			isLogged: true,
 			email: data.email,
 			role: data.role,
 			username: data.username
 		}
-		console.log(data);
-	
 		store.dispatch(login(user));
-		store.dispatch(updateCart(cart));
+		store.dispatch(updateCart(data.cart));
 	} catch (err) {
 		console.log(err);
+	}
+}
+
+export async function getCartInfo(){
+	try {
+		const cartReq = await axios.get("/api/products/get-user-cart/", {
+			headers: { "Content-Type" : "application/json" },
+			withCredentials: true,
+		});
+
+		const data = cartReq.data;
+		if(!data || !data.cart){
+			console.log("aaa");
+			return;
+		}
+		store.dispatch(updateCart(data.cart));
+	} catch (e) {
+		console.log(e);
 	}
 }

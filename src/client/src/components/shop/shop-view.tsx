@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getShopItems } from "../../scripts/shop-scripts";
+import AddButton from "./add-item";
 import ShopItem from "./shop-item";
 
 export interface ShopItemI {
@@ -30,13 +31,15 @@ const ShopView: React.FunctionComponent = () => {
 			{message && <p>{message}</p>}
 			{products &&
 				products.map((value, index) => (
-					<ShopItem
-						key={index}
-						title={value.title}
-						description={value.description}
-						price={value.price}
-						id={value.id}
-					/>
+					<div key={index}>
+						<ShopItem
+							title={value.title}
+							description={value.description}
+							price={value.price}
+							id={value.id}
+						/>
+						<AddButton item={value} />
+					</div>
 				))}
 		</div>
 	);

@@ -53,6 +53,11 @@ User.init(
 		googleId: {
 			type: DataTypes.STRING,
 			unique: true
+		},
+		cart: {
+			type: DataTypes.ARRAY(DataTypes.INTEGER),
+			unique: false,
+			defaultValue: []
 		}
 	},
 	{
@@ -80,5 +85,6 @@ export type UserI = User & Partial<{
 	email: string;
 	history: number[];
 	googleId: string;
+	cart: number[];
 }>
 export default User;

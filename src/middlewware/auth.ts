@@ -5,6 +5,7 @@ import { googleClient, googleSecret } from "../lib/secrets";
 import { Router } from "express";
 import User, { UserI } from "../models/user";
 import { getAdminRole, getCostumerRole } from "../models/role";
+import { isUser } from "../controllers/user";
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ interface UserPass {
 	email: string;
 	id: number;
 	username: string;
+	cart: number[];
 }
 
 passport.serializeUser((user, done) => {
@@ -56,16 +58,15 @@ passport.serializeUser((user, done) => {
 		id: user.getDataValue("id"),
 		email: user.getDataValue("email"),
 		username: user.getDataValue("username"),
+		cart: user.getDataValue("cart"),
 	};
 
 	return done(null, userValues);
 });
 
 passport.deserializeUser(async (userVal: UserPass,  done) => {
-	console.log(`deserialize id: ${userVal.id} email: ${userVal.email}`);
 	const user = await User.findByPk(userVal.id);
 	if(!user){
-		console.log("!user in deserialize");
 		return done(null, false);
 	}
 	return done(null, user);
@@ -83,17 +84,29 @@ router.get(
 	passport.authenticate("google", {
 		failureRedirect: "http://localhost:3000/",
 		successRedirect: "http://localhost:3000/",
-	}),
-	(req, res) => {
-		req.session.save();
-	}
+	})
 );
 
-router.get("/api/auth/logout", (req, res, next) => {
-	req.logout({ keepSessionInfo: false}, () => console.log("logged out"));
+router.get("/api/auth/logout", async (req, res, next) => {
+	const userCart = req.session.cart;
+	const userId = req.user?.id;
+	if(userCart && userId){
+		await assignCartToUser(userCart, userId);
+	}
+	req.logout({ keepSessionInfo: true }, () => console.log("logged out"));
 	res.status(201).json({
 		message: "user logged out"
 	});
 })
+
+async function assignCartToUser(userCart: number[], userId: number){
+	const user = await isUser(userId);
+	for (let id of userCart) {
+		if (typeof id !== "number") {
+			return;
+		}
+	}
+	await user.set("cart", userCart);
+}
 
 export default router;

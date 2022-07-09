@@ -62,12 +62,14 @@ export const postAddItemToCart: RequestHandler = async(req, res, next) => {
 		if(!product) {
 			throw new Error("Product wasn't found");
 		}
+		
 		if(!req.session.cart){
 			req.session.cart = [];
 		}
+
 		req.session.cart.push(id);
 		req.session.save();
-		
+
 		res.status(201).json({
 			message: "Item was added"
 		});
@@ -76,5 +78,26 @@ export const postAddItemToCart: RequestHandler = async(req, res, next) => {
 			message: `Something went wrong, reason: ${err}`,
 			error: err
 		});
+	}
+}
+
+export const getUserCart:RequestHandler = async (req, res, next) => {
+	try {
+		console.log("in addusercar");
+		let cart: number[] = [];
+		if(req.session){
+			cart = req.session?.cart || [];
+		}
+		res.status(201).json({
+			message: 'Sent cart',
+			cart,
+		});
+	} catch (e) {
+		console.log("Error in isbla");
+		console.log(e);
+		res.status(500).json({
+			message: "something went wrong",
+			cart: [],
+		})
 	}
 }

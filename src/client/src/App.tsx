@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import AccountView from "./components/account/account-view";
 import AdminPage from "./components/admin/main-view";
+import CartView from "./components/cart/cart-view";
 import Header from "./components/layout/header";
 import ShopView from "./components/shop/shop-view";
 import { getUserInfo } from "./scripts/auth-scripts";
@@ -15,6 +17,8 @@ const App: React.FC = () => {
 					<Route path="/" element={<h1>home</h1>}></Route>
 					<Route path="/admin" element={<AdminPage />}></Route>
 					<Route path="/shop" element={<ShopView />}></Route>
+					<Route path="/cart" element={<CartView />}></Route>
+					<Route path="/account" element={<AccountView />}></Route>
 				</Routes>
 			</Router>
 		</div>
