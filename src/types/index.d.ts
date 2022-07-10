@@ -1,10 +1,12 @@
 import { SessionData } from "express-session";
+import { ShopItemI } from "../client/src/components/shop/shop-view";
+import { CartI } from "../controllers/cart";
 import { UserI } from "../models/user";
 
 declare global {
 	namespace Express {
 		interface User extends UserI {
-			
+
 		}
 	}
 }
@@ -12,7 +14,7 @@ declare global {
 declare module "express-session" {
 	interface SessionData {
 		isLogged: boolean;
-		cart: number[];
-		passport: {user: UserI};
+		cart: CartI;
+		passport: object;
 	}
 }

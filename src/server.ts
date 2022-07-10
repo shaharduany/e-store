@@ -3,12 +3,12 @@ import cors from "cors";
 import swaggerUI from "swagger-ui-express";
 import bodyParser from "body-parser";
 import passport from "passport";
-import cookieSession from 'cookie-session';
 
 import productRouter from "./middlewware/products";
 import authRoter from './middlewware/auth';
 import adminRouter from "./middlewware/admin";
 import userRouter from './middlewware/user';
+import cartRouter from './middlewware/cart';
 
 import swaggerDocument from "./lib/swagger";
 import { session } from "./models/session";
@@ -19,6 +19,8 @@ import "./models/genre";
 import "./models/product";
 import "./models/purchases";
 import "./models/session";
+import "./models/cart-item";
+
 import "./middlewware/auth";
 
 import sequelize from "./models/pg-sequelize";
@@ -43,7 +45,7 @@ export default class Server {
 
 		this.app.use(session);
 		this.app.use(cookieParser());
-		
+
 		this.app.use(passport.initialize());
 		this.app.use(passport.session());
 
@@ -65,6 +67,7 @@ export default class Server {
 		this.app.use(authRoter);
 		this.app.use(adminRouter);
 		this.app.use(userRouter);
+		this.app.use(cartRouter);
 	}
 
 	listen() {

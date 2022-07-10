@@ -21,7 +21,7 @@ export const getShopItems = async (amount: number = 0) => {
 export const addToCart = async (item: ShopItemI) => {
 	try {
 		const req = await axios.post(
-			"/api/products/add-to-cart",
+			"/api/cart/add-to-cart",
 			{ id: item.id },
 			{ headers }
 		);

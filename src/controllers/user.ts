@@ -1,7 +1,8 @@
-import { json } from "body-parser";
 import { RequestHandler } from "express";
 import { ShopItemI } from "../client/src/components/shop/shop-view";
-import Product from "../models/product";
+
+import { getCartItemsById } from "./cart";
+
 import Role, { getAdminRole } from "../models/role";
 import User from "../models/user";
 
@@ -52,7 +53,7 @@ export const getUserInformation: RequestHandler = async (req, res, next) => {
 export const getStartUserInfo: RequestHandler = async (req, res, next) => {
 	const user = await isUser(req.user?.id!);
 	const role = await Role.findByPk(user.getDataValue("role"));
-	const cartItems = req.session.cart ? req.session.cart : [];
+	const cartItems = req.session.cart ? req.session.cart : {};
 
 	const cart = await getCartItemsById(cartItems);
 
@@ -65,44 +66,5 @@ export const getStartUserInfo: RequestHandler = async (req, res, next) => {
 	});
 };
 
-function convertProdShopItem(product: Product) {
-	let obj: ShopItemI = {
-		title: product.getDataValue("title"),
-		description: product.getDataValue("description"),
-		price: product.getDataValue("price"),
-		id: product.getDataValue("id"),
-	};
-	return obj;
-}
-
-async function getCartItemsById(ids: number[]) {
-	const cart: ShopItemI[] = [];
-
-	for (let id of ids) {
-		let item = await Product.findByPk(id);
-		if (!item) {
-			continue;
-		}
-		cart.push(convertProdShopItem(item));
-	}
-	return cart;
-}
-
 export const postBuyProducts: RequestHandler = async (req, res, next) => {};
 
-export const postDeleteItem: RequestHandler = async (req, res, next) => {
-	try {
-		const cart = req.session.cart;
-		const { id } = req.body;
-
-		if (!cart) {
-			throw new Error("Cart couldn't be found");
-		}
-		req.session.cart = cart.filter((value) => value !== id);
-
-		res.status(201).json({ message: "Item was removed", removed: true });
-	} catch (err) {
-		console.log(err);
-		res.status(422).json({ message: "Something went wrong" });
-	}
-};

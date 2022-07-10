@@ -6,6 +6,7 @@ import { Router } from "express";
 import User, { UserI } from "../models/user";
 import { getAdminRole, getCostumerRole } from "../models/role";
 import { isUser } from "../controllers/user";
+import { CartI } from "../controllers/cart";
 
 dotenv.config();
 
@@ -99,14 +100,9 @@ router.get("/api/auth/logout", async (req, res, next) => {
 	});
 })
 
-async function assignCartToUser(userCart: number[], userId: number){
+async function assignCartToUser(userCart: CartI, userId: number){
 	const user = await isUser(userId);
-	for (let id of userCart) {
-		if (typeof id !== "number") {
-			return;
-		}
-	}
-	await user.set("cart", userCart);
+	user.set("cart", userCart);
 }
 
 export default router;

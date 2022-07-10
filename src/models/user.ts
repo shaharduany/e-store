@@ -1,6 +1,7 @@
 import sequelize from "./pg-sequelize";
 import { Model, DataTypes } from "sequelize";
 import Role from "./role";
+import { CartI } from "../client/src/store/cart-store";
 
 class User extends Model {}
 /**
@@ -55,9 +56,9 @@ User.init(
 			unique: true
 		},
 		cart: {
-			type: DataTypes.ARRAY(DataTypes.INTEGER),
+			type: DataTypes.JSON,
 			unique: false,
-			defaultValue: []
+			defaultValue: {}
 		}
 	},
 	{
@@ -85,6 +86,6 @@ export type UserI = User & Partial<{
 	email: string;
 	history: number[];
 	googleId: string;
-	cart: number[];
+	cart: CartI;
 }>
 export default User;

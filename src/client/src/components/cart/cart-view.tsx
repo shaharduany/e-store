@@ -16,7 +16,7 @@ const CartView: React.FC = () => {
 			<h1>CART PAGE</h1>
 			{message && <h3>{message}</h3>}
 			{cartItems &&
-				cartItems.map((value, index) => (
+				cartItems.for((value, index) => (
 					<div key={index}>
                         <CartItem 
                             title={value.title}
