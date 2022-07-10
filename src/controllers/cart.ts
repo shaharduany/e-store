@@ -1,13 +1,11 @@
 import { RequestHandler } from "express";
 import Product from "../models/product";
 import { ShopItemI } from "../client/src/components/shop/shop-view";
-
-export interface CartI {
-    [key: number]: number;
-}
+import ClientCart from "../client/src/lib/cart";
+import ServerCart from "../lib/user-cart";
 
 export interface ClientCartI {
-    [key: number]: [ShopItemI, number]; 
+	items: ClientCart;
 }
 
 export const postAddItemToCart: RequestHandler = async (req, res, next) => {
@@ -20,14 +18,10 @@ export const postAddItemToCart: RequestHandler = async (req, res, next) => {
 		}
 
 		if (!req.session.cart) {
-			req.session.cart = {};
+			req.session.cart = new ServerCart();
 		}
-
-        if(!req.session.cart[id]){
-            req.session.cart[id] = 0;
-        }
-        
-        req.session.cart[id] += 1;
+		
+		req.session.cart.insertOne(id);
 		req.session.save();
 
 		res.status(201).json({
@@ -44,17 +38,11 @@ export const postAddItemToCart: RequestHandler = async (req, res, next) => {
 export const getUserCart: RequestHandler = async (req, res, next) => {
 	try {
 		console.log("in addusercar");
-		let cart: ClientCartI = {};
+		let cart: ClientCart = new ClientCart();
 
-		if (!req.session.cart) {
-            res.status(201).json({
-                message: "no cart yet",
-                cart,
-            });
-            return;
-        }
-
-        cart = await getCartItemsById(req.session.cart);
+		if (req.session.cart) {
+			cart = await req.session.cart.getClientCart();
+		}
 
 		res.status(201).json({
 			message: "Sent cart",
@@ -64,7 +52,7 @@ export const getUserCart: RequestHandler = async (req, res, next) => {
 		console.log(e);
 		res.status(500).json({
 			message: "something went wrong",
-			cart: {},
+			cart: new ClientCart(),
 		});
 	}
 };
@@ -76,45 +64,13 @@ export const postDeleteItem: RequestHandler = async (req, res, next) => {
 		if (!req.session.cart) {
 			throw new Error("Cart couldn't be found");
 		}
+		
+		req.session.cart.deleteOne(id);
+		req.session.save();
 
-        if(req.session.cart[id] > 1){
-            req.session.cart[id] -= 1;
-        } else {
-            delete req.session.cart[id];
-        }
 		res.status(201).json({ message: "Item was removed", removed: true });
 	} catch (err) {
 		console.log(err);
 		res.status(422).json({ message: "Something went wrong" });
 	}
 };
-
-function convertProdShopItem(product: Product) {
-	let obj: ShopItemI = {
-		title: product.getDataValue("title"),
-		description: product.getDataValue("description"),
-		price: product.getDataValue("price"),
-		id: product.getDataValue("id"),
-	};
-	return obj;
-}
-
-export async function getCartItemsById(items: CartI) {
-    const ids = Object.keys(items)!;
-    const cart: ClientCartI = {};
-
-    for(let id of ids){
-        if(typeof id !== "number"){
-            continue;
-        }
-
-        const product = await Product.findByPk(id);
-        if(!product){
-            continue;
-        }
-        
-        cart[id] = [convertProdShopItem(product), items[id]];
-    }
-
-    return cart;
-}

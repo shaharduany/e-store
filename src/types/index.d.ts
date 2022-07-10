@@ -1,6 +1,6 @@
 import { SessionData } from "express-session";
 import { ShopItemI } from "../client/src/components/shop/shop-view";
-import { CartI } from "../controllers/cart";
+import ServerCart from "../lib/user-cart";
 import { UserI } from "../models/user";
 
 declare global {
@@ -14,7 +14,7 @@ declare global {
 declare module "express-session" {
 	interface SessionData {
 		isLogged: boolean;
-		cart: CartI;
+		cart: ServerCart;
 		passport: object;
 	}
 }

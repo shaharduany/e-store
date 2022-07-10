@@ -1,10 +1,9 @@
 import { RequestHandler } from "express";
-import { ShopItemI } from "../client/src/components/shop/shop-view";
-
-import { getCartItemsById } from "./cart";
 
 import Role, { getAdminRole } from "../models/role";
 import User from "../models/user";
+import ServerCart from "../lib/user-cart";
+import ClientCart from "../client/src/lib/cart";
 
 export const isUser = async (id: number) => {
 	const user = await User.findByPk(id);
@@ -53,9 +52,9 @@ export const getUserInformation: RequestHandler = async (req, res, next) => {
 export const getStartUserInfo: RequestHandler = async (req, res, next) => {
 	const user = await isUser(req.user?.id!);
 	const role = await Role.findByPk(user.getDataValue("role"));
-	const cartItems = req.session.cart ? req.session.cart : {};
+	const cartItems = req.session.cart ? req.session.cart : new ServerCart();
 
-	const cart = await getCartItemsById(cartItems);
+	const cart: ClientCart = await cartItems.getClientCart();
 
 	res.status(200).json({
 		message: "sent info",
