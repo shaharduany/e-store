@@ -10,14 +10,11 @@ const Header: React.FunctionComponent = () => {
 	const dispatch = useDispatch();
 	const isLogged = useSelector((state: RootState) => state.user.isLogged);
 	const role = useSelector((state: RootState) => state.user.role);
-	const cart = useSelector((state: RootState) => state.cart.items);
-	let cartLength = cart?.getLength() || 0;
- 
+	const cartLength = useSelector((state: RootState) => state.cart.length);
+
 	let isAdmin = role === Role.admin;
 
-	useEffect(() => {
-		cartLength = cart?.getLength() | 0;
-	}, [isLogged, cart]);
+	useEffect(() => {}, [isLogged, cartLength]);
 
 	const logoutClickHandler = async (e: MouseEvent<HTMLButtonElement>) => {
 		e.preventDefault();

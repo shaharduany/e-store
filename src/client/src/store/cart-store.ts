@@ -3,9 +3,10 @@ import { ShopItemI } from "../components/shop/shop-view";
 import Cart, { CartItemsI } from "../lib/cart";
 export interface CartI {
     items: Cart;
+    length: number;
 }
 
-const initialState: CartI = { items: new Cart() };
+const initialState: CartI = { items: new Cart(), length: 0 };
 
 const slice = createSlice({
     name: "cart",
@@ -13,12 +14,15 @@ const slice = createSlice({
     reducers: {
         addItem(state, action: PayloadAction<ShopItemI>){
             state.items.insertOne(action.payload);
+            state.length++;
         },
         removeItem(state, action: PayloadAction<number | ShopItemI>){
             state.items.deleteOne(action.payload);
+            state.length--;
         },
         updateCart(state, action: PayloadAction<CartItemsI>){
             state.items = new Cart(action.payload);
+            state.length = state.items.getLength();
         }
     }
 });

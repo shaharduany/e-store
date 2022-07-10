@@ -53,9 +53,9 @@ export const getStartUserInfo: RequestHandler = async (req, res, next) => {
 	const user = await isUser(req.user?.id!);
 	const role = await Role.findByPk(user.getDataValue("role"));
 	let cartItems: ServerCart = new ServerCart();
-	if (req.session.cart) {
+	if (req.session.cart){
+		req.session.cart = new ServerCart(req.session.cart.items);
 		cartItems = req.session.cart;
-		console.log("got here");
 	}
 	
 	const cart: ClientCart = await cartItems.getClientCart();
