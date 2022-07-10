@@ -6,7 +6,6 @@ import { Router } from "express";
 import User, { UserI } from "../models/user";
 import { getAdminRole, getCostumerRole } from "../models/role";
 import { isUser } from "../controllers/user";
-import Cart from "../lib/user-cart";
 import ClientCart from "../client/src/lib/cart";
 import ServerCart from "../lib/user-cart";
 
@@ -61,7 +60,7 @@ passport.serializeUser((user, done) => {
 		id: user.getDataValue("id"),
 		email: user.getDataValue("email"),
 		username: user.getDataValue("username"),
-		cart: user.getDataValue("cart"),
+		cart: new ServerCart(user.getDataValue("cart")),
 	};
 
 	return done(null, userValues);

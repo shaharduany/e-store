@@ -6,6 +6,7 @@ import ShopItem from "../shop/shop-item";
 import CartItem from "./cart-item";
 import RemoveButton from "./remove-button";
 
+
 const CartView: React.FC = () => {
 	const cartItems = useSelector((state: RootState) => state.cart.items);
 	const [message, setMessage] = useState("");
@@ -16,13 +17,14 @@ const CartView: React.FC = () => {
 			<h1>CART PAGE</h1>
 			{message && <h3>{message}</h3>}
 			{cartItems &&
-				cartItems.for((value, index) => (
+				cartItems.getDisplayItems().map((value, index) => (
 					<div key={index}>
                         <CartItem 
-                            title={value.title}
-                            description={value.description}
-                            price={value.price}
-                            id={value.id}
+                            title={value[0].title}
+                            description={value[0].description}
+                            price={value[0].price}
+                            id={value[0].id}
+							amount={value[1]}
                         />
 					</div>
 				))}

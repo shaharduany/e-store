@@ -52,8 +52,12 @@ export const getUserInformation: RequestHandler = async (req, res, next) => {
 export const getStartUserInfo: RequestHandler = async (req, res, next) => {
 	const user = await isUser(req.user?.id!);
 	const role = await Role.findByPk(user.getDataValue("role"));
-	const cartItems = req.session.cart ? req.session.cart : new ServerCart();
-
+	let cartItems: ServerCart = new ServerCart();
+	if (req.session.cart) {
+		cartItems = req.session.cart;
+		console.log("got here");
+	}
+	
 	const cart: ClientCart = await cartItems.getClientCart();
 
 	res.status(200).json({
@@ -66,4 +70,3 @@ export const getStartUserInfo: RequestHandler = async (req, res, next) => {
 };
 
 export const postBuyProducts: RequestHandler = async (req, res, next) => {};
-

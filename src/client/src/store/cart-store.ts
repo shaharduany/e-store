@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ShopItemI } from "../components/shop/shop-view";
-import Cart from "../lib/cart";
+import Cart, { CartItemsI } from "../lib/cart";
 export interface CartI {
     items: Cart;
 }
@@ -17,8 +17,8 @@ const slice = createSlice({
         removeItem(state, action: PayloadAction<number | ShopItemI>){
             state.items.deleteOne(action.payload);
         },
-        updateCart(state, action: PayloadAction<CartI>){
-            state.items = action.payload.items;
+        updateCart(state, action: PayloadAction<CartItemsI>){
+            state.items = new Cart(action.payload);
         }
     }
 });

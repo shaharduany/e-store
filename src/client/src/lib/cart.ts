@@ -10,8 +10,8 @@ type CartItemi = [ShopItemI, number];
 class ClientCart {
 	items: CartItemsI;
 
-	constructor() {
-		this.items = {};
+	constructor(items: CartItemsI = {}) {
+		this.items = items;
 	}
 
 	private checkItemInCart(shopItem: ShopItemI) {
@@ -53,6 +53,26 @@ class ClientCart {
         } else {
             delete this.items[id];
         }
+    }
+
+    getLength(){
+        let length = 0;
+
+        for(let item in this.items){
+            length += this.items[item][1];
+        }
+
+        return length;
+    }
+
+    getDisplayItems(){
+        let displayItems: CartItemi[] = [];
+
+        for(let item in this.items){
+            displayItems.push(this.items[item]);
+        }
+
+        return displayItems;
     }
 }
 
