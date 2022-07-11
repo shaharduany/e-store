@@ -18,12 +18,12 @@ const ShopView: React.FunctionComponent = () => {
 	useEffect(() => {
 		getShopItems()
 			.then((items: ShopItemI[]) => {
-				if (items.length === 0) {
+				if (!items || items.length === 0) {
 					throw new Error("No items found");
 				}
 				setProducts(items);
 			})
-			.catch((err) => setMessage(err));
+			.catch((err) => setMessage(String(err)));
 	}, []);
 
 	return (

@@ -16,10 +16,10 @@ import { session } from "./models/session";
 import "./models/role";
 import "./models/user";
 import "./models/genre";
-import "./models/product";
-import "./models/purchases";
 import "./models/session";
 import "./models/cart-item";
+import "./models/product";
+import "./models/purchases";
 
 import "./middlewware/auth";
 

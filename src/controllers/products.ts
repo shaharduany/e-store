@@ -7,18 +7,17 @@ export const getProducts: RequestHandler = async (req, res, next) => {
 	let products: Product[] = [];
 	try {
 		products = await Product.findAll({ limit: 10 });
+		res.status(201).json({
+			message: "Sent products",
+			products,
+		});
 	} catch (err) {
 		res.status(500).json({
 			message: "something went wrong",
 			error: err,
-			products: [],
+			products,
 		});
 	}
-
-	res.status(201).json({
-		message: "Sent products",
-		products,
-	});
 };
 
 export const getMoreProducts: RequestHandler = async (req, res, next) => {
@@ -36,7 +35,7 @@ export const postSearchProduct: RequestHandler = async (req, res, next) => {
 		res.status(422).json({
 			message: "couldn't find products",
 			found: false,
-            products: [],
+			products: [],
 		});
 		return;
 	}
@@ -47,9 +46,9 @@ export const postSearchProduct: RequestHandler = async (req, res, next) => {
 		},
 	});
 
-    res.status(201).json({
-        message: "found items",
-        found: true,
-        products,
-    });
+	res.status(201).json({
+		message: "found items",
+		found: true,
+		products,
+	});
 };

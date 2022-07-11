@@ -11,7 +11,7 @@ export const deleteItemReq = async (id: number) => {
 
 		const body = { id };
 
-		const req = await axios.post("/api/user/delete-cart-item", body, config);
+		const req = await axios.post("/api/cart/delete-cart-item", body, config);
 		const data = req.data;
 
 		if (!data.removed) {

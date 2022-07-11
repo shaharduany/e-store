@@ -23,7 +23,7 @@ export const addToCart = async (item: ShopItemI) => {
 		const req = await axios.post(
 			"/api/cart/add-to-cart",
 			{ id: item.id },
-			{ headers }
+			{ headers, withCredentials: true }
 		);
         
         if(!req.data.error){

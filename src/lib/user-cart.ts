@@ -2,15 +2,19 @@ import { ShopItemI } from "../client/src/components/shop/shop-view";
 import ClientCart from "../client/src/lib/cart";
 import Product from "../models/product";
 
-interface CartI {
+export interface CartI {
     [key: number]: number;
 }
 
 class ServerCart {
 	items: CartI;
 
-	constructor(items: CartI = {}) {
-		this.items = items;
+	constructor(items: CartI = {}, cart: ServerCart | undefined = undefined) {
+		if(cart){
+			this.items = cart.items;
+		} else {
+			this.items = items;
+		}
 	}
 
 	private checkItemInCart(item: ShopItemI | number) {
@@ -42,20 +46,22 @@ class ServerCart {
 		}
 	}
 	async getClientCart() {
-		const ids = Object.keys(this.items)!;
+		const ids: string[] | number[] = Object.keys(this.items);
 		const cart: ClientCart = new ClientCart();
+		for (let i = 0; i < ids.length; i++) {
+			let id: string | number = ids[i];
 
-		for (let id of ids) {
 			if (typeof id !== "number") { // TypeScript complains
-				continue;
+				id = Number(id);
 			}
 
 			const product = await Product.findByPk(id);
 			if (!product) {
 				continue;
 			}
-            const item = this.convertProdShopItem(product);
-            cart.insertMany(item, this.items[id]);
+        
+			const item = this.convertProdShopItem(product);
+			cart.insertMany(item, this.items[id]);
 		}
 		return cart;
 	}
