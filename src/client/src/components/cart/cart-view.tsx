@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useEffect, useState, MouseEvent } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -15,6 +16,11 @@ const CartView: React.FC = () => {
 	useEffect(() => {
 		setDisplayItems(cartItems.getDisplayItems());
 	}, [cartItems]);
+
+	const checkoutClickHandler = async(e: MouseEvent<HTMLButtonElement>) => {
+		const req = await axios.get("/api/checkout");
+		console.log(req);
+	}
 	return (
 		<div>
 			<h1>CART PAGE</h1>
@@ -37,7 +43,8 @@ const CartView: React.FC = () => {
 				</li>
 				{displayItems && (
 					<li>
-						<Link to="/checkout">CHECK OUT</Link>
+						<button onClick={checkoutClickHandler}>checkout</button>
+						<a href="http://localhost:4000/api/checkout">CHECKOUT</a>
 					</li>
 				)}
 			</ul>

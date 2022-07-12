@@ -15,6 +15,7 @@ I reformed my previous application using TypeScript
 7. SCSS
 8. Passport.js
 9. Swagger UI
-10. Bootstrap
+10. Stripe API
 11. Express Session
 12. Axios
+X11

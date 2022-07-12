@@ -44,3 +44,9 @@ export const getCheckout: RequestHandler = async (req, res, next) => {
 		console.log(e);
 	}
 };
+
+export const getSuccessCheckout: RequestHandler = async (req, res, next) => {
+	const session = await stripe.checkout.sessions.retrieve(req.query.session_id as string);
+	
+	res.send(`<h1>success</h1>`);
+}
