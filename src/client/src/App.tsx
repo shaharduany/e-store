@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import AccountView from "./components/account/account-view";
 import AdminPage from "./components/admin/main-view";
 import CartView from "./components/cart/cart-view";
+import CheckoutPage from "./components/checkout/checkout-view";
 import Header from "./components/layout/header";
 import ShopView from "./components/shop/shop-view";
 import { getUserInfo } from "./scripts/auth-scripts";
@@ -19,6 +20,7 @@ const App: React.FC = () => {
 					<Route path="/shop" element={<ShopView />}></Route>
 					<Route path="/cart" element={<CartView />}></Route>
 					<Route path="/account" element={<AccountView />}></Route>
+					<Route path="/checkout" element={<CheckoutPage />}></Route>
 				</Routes>
 			</Router>
 		</div>

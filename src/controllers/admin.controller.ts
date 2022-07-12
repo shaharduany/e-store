@@ -3,7 +3,7 @@ import Genre from "../models/genre";
 import Product from "../models/product";
 import { getAdminRole } from "../models/role";
 import User from "../models/user";
-import { isUser } from "./user";
+import { isUser } from "./user.controller";
 
 export const isAdmin: RequestHandler = async (req, res, next) => {
 	const userId = req.user?.id;

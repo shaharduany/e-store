@@ -13,7 +13,7 @@ Purchases.init(
 		},
 		products: {
 			type: DataTypes.ARRAY(DataTypes.INTEGER),
-			allowNull: false,
+			defaultValue: [],
 		},
 		buyer: {
 			type: DataTypes.INTEGER,

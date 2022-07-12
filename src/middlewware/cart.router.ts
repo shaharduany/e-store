@@ -3,8 +3,8 @@ import {
 	fixUserCart,
 	postAddItemToCart,
 	postDeleteItem,
-} from "../controllers/cart";
-import { userIsValid } from "../controllers/user";
+} from "../controllers/cart.controller";
+import { userIsValid } from "../controllers/user.controller";
 
 const router = Router();
 

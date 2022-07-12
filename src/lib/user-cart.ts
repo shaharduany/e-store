@@ -1,16 +1,17 @@
+import { StringExpressionOperatorReturningArray } from "mongoose";
 import { ShopItemI } from "../client/src/components/shop/shop-view";
 import ClientCart from "../client/src/lib/cart";
 import Product from "../models/product";
 
 export interface CartI {
-    [key: number]: number;
+	[key: number]: number;
 }
 
 class ServerCart {
 	items: CartI;
 
 	constructor(items: CartI = {}, cart: ServerCart | undefined = undefined) {
-		if(cart){
+		if (cart) {
 			this.items = cart.items;
 		} else {
 			this.items = items;
@@ -51,7 +52,8 @@ class ServerCart {
 		for (let i = 0; i < ids.length; i++) {
 			let id: string | number = ids[i];
 
-			if (typeof id !== "number") { // TypeScript complains
+			if (typeof id !== "number") {
+				// TypeScript complains
 				id = Number(id);
 			}
 
@@ -59,7 +61,7 @@ class ServerCart {
 			if (!product) {
 				continue;
 			}
-        
+
 			const item = this.convertProdShopItem(product);
 			cart.insertMany(item, this.items[id]);
 		}
@@ -74,6 +76,18 @@ class ServerCart {
 			id: product.getDataValue("id"),
 		};
 		return obj;
+	}
+
+	convertToArray() {
+		let arr: [number, number][] = [];
+		let ids = Object.keys(this.items);
+
+		for (let i = 0; i < ids.length; i++) {
+			let id = +ids[i];
+			arr.push([id, this.items[id]]);
+		}
+
+		return arr;
 	}
 }
 

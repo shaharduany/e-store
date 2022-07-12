@@ -5,9 +5,10 @@ import { googleClient, googleSecret } from "../lib/secrets";
 import { Router } from "express";
 import User, { UserI } from "../models/user";
 import { getAdminRole, getCostumerRole } from "../models/role";
-import { isUser } from "../controllers/user";
+import { isUser } from "../controllers/user.controller";
 import ClientCart from "../client/src/lib/cart";
 import ServerCart from "../lib/user-cart";
+import { fixUserCart } from "../controllers/cart.controller";
 
 dotenv.config();
 
@@ -89,7 +90,7 @@ router.get(
 	})
 );
 
-router.get("/api/auth/logout", async (req, res, next) => {
+router.get("/api/auth/logout", fixUserCart, async (req, res, next) => {
 	const userCart: ServerCart | undefined = req.session.cart;
 	const userId = req.user?.id;
 	if(userCart && userId){
@@ -103,7 +104,7 @@ router.get("/api/auth/logout", async (req, res, next) => {
 
 async function assignCartToUser(userCart: ServerCart, userId: number){
 	const user = await isUser(userId);
-	user.set("cart", userCart.items);
+	user.set("cart", userCart.convertToArray());
 }
 
 export default router;

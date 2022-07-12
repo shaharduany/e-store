@@ -4,6 +4,8 @@ import Role, { getAdminRole } from "../models/role";
 import User from "../models/user";
 import ServerCart from "../lib/user-cart";
 import ClientCart from "../client/src/lib/cart";
+import CartItem from "../models/cart-item";
+import Purchases from "../models/purchases";
 
 export const isUser = async (id: number) => {
 	const user = await User.findByPk(id);
@@ -52,9 +54,9 @@ export const getUserInformation: RequestHandler = async (req, res, next) => {
 export const getStartUserInfo: RequestHandler = async (req, res, next) => {
 	const user = await isUser(req.user?.id!);
 	const role = await Role.findByPk(user.getDataValue("role"));
-	
+
 	const cart: ClientCart = await req.session.cart!.getClientCart();
-	
+
 	res.status(200).json({
 		message: "sent info",
 		username: user.getDataValue("username"),
@@ -64,4 +66,35 @@ export const getStartUserInfo: RequestHandler = async (req, res, next) => {
 	});
 };
 
-export const postBuyProducts: RequestHandler = async (req, res, next) => {};
+export const postBuyProducts: RequestHandler = async (req, res, next) => {
+	//get body here
+	try {
+		const cart = req.session.cart!.convertToArray();
+		const userId = req.user?.id;
+		if (!userId) {
+			throw new Error("no user id found");
+		}
+
+		const user = await isUser(userId);
+		let arr: number[] = [];
+		for (let item of cart) {
+			const cartItem = await CartItem.create({
+				product: item[0],
+				amount: item[1],
+			});
+			arr.push(cartItem.getDataValue("id"));
+		}
+
+		const pruchase = await Purchases.create({
+			products: arr,
+			buyer: user.getDataValue("id"),
+		});
+
+		await user.update(
+			"history",
+			user.getDataValue("history").push(pruchase.getDataValue("id"))
+		);
+	} catch (e) {
+		console.log(e);
+	}
+};

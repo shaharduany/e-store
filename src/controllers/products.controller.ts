@@ -1,7 +1,7 @@
 import { RequestHandler } from "express";
 import Genre from "../models/genre";
 import Product from "../models/product";
-import { userIsValid } from "./user";
+import { userIsValid } from "./user.controller";
 
 export const getProducts: RequestHandler = async (req, res, next) => {
 	let products: Product[] = [];

@@ -2,10 +2,10 @@ import { ShopItemI } from "../components/shop/shop-view";
 
 // Key = id, shopitem the item, number amount;
 export interface CartItemsI {
-	[key: number]: CartItemi;
+	[key: number]: CartItemSingleI;
 }
 
-type CartItemi = [ShopItemI, number];
+export type CartItemSingleI = [ShopItemI, number];
 
 class ClientCart {
 	items: CartItemsI;
@@ -66,7 +66,7 @@ class ClientCart {
     }
 
     getDisplayItems(){
-        let displayItems: CartItemi[] = [];
+        let displayItems: CartItemSingleI[] = [];
 
         for(let item in this.items){
             displayItems.push(this.items[item]);
