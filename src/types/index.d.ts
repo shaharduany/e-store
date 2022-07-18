@@ -1,4 +1,5 @@
 import { SessionData } from "express-session";
+import Stripe from "stripe";
 import { ShopItemI } from "../client/src/components/shop/shop-view";
 import ServerCart, { CartI } from "../lib/user-cart";
 import { UserI } from "../models/user";
@@ -16,5 +17,6 @@ declare module "express-session" {
 		isLogged: boolean;
 		cart: ServerCart & Partial<{ items: CartI }>;
 		passport: object;
+		stripeSessionId: Stripe.Respons;
 	}
 }

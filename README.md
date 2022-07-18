@@ -2,8 +2,16 @@
 
 
 ## UNDER CONSTRCUTON
-I reformed my previous application using TypeScript
+Single page Web Application built using TypeScript
 
+## Features:
+1. OAuth 2.0 using Passport.js, sign in with Google
+2. Sequel database managed with Sequelize ORMs and PostgreSQL
+3. Admin panel where you can dynmaically upload items with respected prices.
+4. Checkout using stripe
+5. 2 states managed by Redux
+5. Session stored automatically to a sequel database and loaded upon request
+6. Sales are kept in a database record
 
 ## Libraries & Frameworks:
 1. TypeScript (back & front)
@@ -18,4 +26,7 @@ I reformed my previous application using TypeScript
 10. Stripe API
 11. Express Session
 12. Axios
-X11
+
+## Todo:
+1. Build account view where it displays all the history on one panel and account details on the other
+2. Once project complete - design with SCSS Bootstrap, and make SSR

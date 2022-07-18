@@ -1,4 +1,5 @@
 import { RequestHandler } from "express";
+import dotenv from 'dotenv';
 
 import Role, { getAdminRole } from "../models/role";
 import User from "../models/user";
@@ -6,6 +7,8 @@ import ServerCart from "../lib/user-cart";
 import ClientCart from "../client/src/lib/cart";
 import CartItem from "../models/cart-item";
 import Purchases from "../models/purchases";
+
+dotenv.config();
 
 export const isUser = async (id: number) => {
 	const user = await User.findByPk(id);
@@ -94,6 +97,8 @@ export const postBuyProducts: RequestHandler = async (req, res, next) => {
 			"history",
 			user.getDataValue("history").push(pruchase.getDataValue("id"))
 		);
+		console.log("got here");
+		res.redirect(`${process.env.CLIENT_URL}/checkout/success`);
 	} catch (e) {
 		console.log(e);
 	}

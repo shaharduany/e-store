@@ -84,6 +84,7 @@ class ServerCart {
 
 		for (let i = 0; i < ids.length; i++) {
 			let id = +ids[i];
+
 			arr.push([id, this.items[id]]);
 		}
 
