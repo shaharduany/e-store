@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { STATES } from 'mongoose';
-import { act } from 'react-dom/test-utils';
+import { stat } from 'fs';
 
 export enum Role {
     guest = "guest",
@@ -13,33 +12,40 @@ export interface UserI {
     role: Role;
     email: string;
     username: string;
+    image: string;
 }
 
-const initialState: UserI = {
+export const initialUserState: UserI = {
     isLogged: false,
     role: Role.guest,
     email: "none",
     username: "Guest",
+    image: "none",
 }
 
 const userSlice = createSlice({
-    name:"user",
-    initialState,
+    name: "user",
+    initialState: initialUserState,
     reducers: {
         login(state, action: PayloadAction<UserI>){
             state.isLogged = action.payload.isLogged;
             state.username = action.payload.username;
             state.email = action.payload.email;
             state.role = action.payload.role;
+            state.image = action.payload.image!;
         },
         logout(state){
-            state.isLogged = initialState.isLogged;
-            state.email = initialState.email;
-            state.username = initialState.username;
-            state.role = initialState.role;
+            state.isLogged = initialUserState.isLogged;
+            state.email = initialUserState.email;
+            state.username = initialUserState.username;
+            state.role = initialUserState.role;
+            state.image = initialUserState.image;
+        },
+        updateImage(state, action: PayloadAction<string>){
+            state.image = action.payload;
         }
     }
 });
 
-export const { login, logout } = userSlice.actions;
+export const { login, logout, updateImage } = userSlice.actions;
 export default userSlice.reducer;

@@ -19,7 +19,7 @@ const App: React.FC = () => {
 					<Route path="/admin" element={<AdminPage />}></Route>
 					<Route path="/shop" element={<ShopView />}></Route>
 					<Route path="/cart" element={<CartView />}></Route>
-					<Route path="/account" element={<AccountView />}></Route>
+					<Route path="/account/*" element={<AccountView />}></Route>
 					<Route
 						path="/checkout/success"
 						element={<CheckoutPage success={true} />}

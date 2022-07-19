@@ -4,6 +4,7 @@ import { Stripe } from "stripe";
 import ServerCart from "../lib/user-cart";
 import CartItem from "../models/cart-item";
 import Purchases from "../models/purchases";
+import User from "../models/user";
 import { isUser } from "./user.controller";
 
 dotenv.config();
@@ -29,13 +30,13 @@ export const getCheckout: RequestHandler = async (req, res, next) => {
 						product_data: {
 							name: item.title,
 						},
-						unit_amount: item.price,
+						unit_amount: item.price * 100,
 					},
 					quantity: value[1],
 				};
 			}),
 			mode: "payment",
-			success_url: `${CLIENT_URL}/checkout/success`,
+			success_url: `${URL}/api/checkout/success`,
 			cancel_url: `${CLIENT_URL}/checkout/fail`,
 		});
 
@@ -43,8 +44,7 @@ export const getCheckout: RequestHandler = async (req, res, next) => {
 			res.json({ message: "something went wrong" });
 			return;
 		}
-
-		req.session.stripeSessionId = stripSessionId;
+		req.session.stripeSessionId = stripSessionId.id;
 		res.redirect(stripSessionId.url);
 	} catch (e) {
 		console.log(e);
@@ -53,13 +53,19 @@ export const getCheckout: RequestHandler = async (req, res, next) => {
 
 export const getSuccessCheckout: RequestHandler = async (req, res, next) => {
 	try {
+		let session = await stripe.checkout.sessions.retrieve(req.session.stripeSessionId);
+		if(!session || session.payment_status !== "paid"){
+			throw new Error("unpaid");
+		}
+
 		const userId = req.user!.id;
 		if (!userId) {
 			throw new Error("User not found");
 		}
+
 		await assignCartHistory(userId, req.session.cart!);
 		req.session.cart = new ServerCart();
-		res.status(201).json({ message: "Request proccessed" });
+		res.redirect(`${CLIENT_URL}/checkout/success`);
 	} catch (e) {
 		console.log(e);
 		res.redirect(`${CLIENT_URL}/checkout/fail`);
@@ -84,6 +90,7 @@ async function assignCartHistory(userId: number, cart: ServerCart) {
 			amount: item[1],
 		});
 		cartItemArr.push(cartItem.getDataValue("id"));
+		await cartItem.save();
 	}
 	
 	const purchase = await Purchases.create({
@@ -94,13 +101,9 @@ async function assignCartHistory(userId: number, cart: ServerCart) {
 	const purchaseId = +purchase.getDataValue("id");
 	const history = user.getDataValue("history");
 	history.push(purchaseId);
-	
-	await user.set(
-		"history",
-		history	
-	);
+
+	await User.update({ history }, { where: { id: userId }});
 	await purchase.save();
-	await user.save();
 }
 
 // try {

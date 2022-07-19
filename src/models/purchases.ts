@@ -1,4 +1,5 @@
 import { Model, DataTypes } from "sequelize";
+import { CartItemSingleI } from "../client/src/lib/cart";
 import sequelize from "./pg-sequelize";
 
 class Purchases extends Model {}
@@ -35,5 +36,11 @@ Purchases.init(
 );
 
 Purchases.sync();
+
+export interface PurchaseItemsI {
+	price: number;
+	purchasedAt: Date;
+	products: CartItemSingleI[];
+}
 
 export default Purchases;

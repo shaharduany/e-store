@@ -43,7 +43,6 @@ const CartView: React.FC = () => {
 				</li>
 				{displayItems && (
 					<li>
-						<button onClick={checkoutClickHandler}>checkout</button>
 						<a href="http://localhost:4000/api/checkout">CHECKOUT</a>
 					</li>
 				)}

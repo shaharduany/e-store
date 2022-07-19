@@ -1,7 +1,7 @@
 import axios from "axios";
 import { updateCart } from "../store/cart-store";
 import store from "../store/root-store";
-import { login, UserI } from "../store/user-store";
+import { initialUserState, login, UserI } from "../store/user-store";
 
 export async function getUserInfo() {
 	try {
@@ -23,7 +23,9 @@ export async function getUserInfo() {
 			email: data.email,
 			role: data.role,
 			username: data.username,
+			image: data.image,
 		};
+		
 		store.dispatch(login(user));
 		store.dispatch(updateCart(data.cart.items));
 	} catch (err) {

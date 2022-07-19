@@ -23,9 +23,12 @@ const slice = createSlice({
         updateCart(state, action: PayloadAction<CartItemsI>){
             state.items = new Cart(action.payload);
             state.length = state.items.getLength();
+        }, resetCart(state){
+            state.items = new Cart();
+            state.length = 0;
         }
     }
 });
 
-export const { addItem, removeItem, updateCart } = slice.actions;
+export const { addItem, removeItem, updateCart, resetCart } = slice.actions;
 export default slice.reducer;
