@@ -6,7 +6,8 @@ import CartView from "./components/cart/cart-view";
 import CheckoutPage from "./components/checkout/checkout-view";
 import Header from "./components/layout/header";
 import ShopView from "./components/shop/shop-view";
-import { getUserInfo } from "./scripts/auth-scripts";
+
+
 const App: React.FC = () => {
 	return (
 		<div>

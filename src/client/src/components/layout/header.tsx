@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import styles from '../../styles/layouts/header.module.scsss';
 
 import { RootState } from "../../store/root-store";
 import { logout, Role } from "../../store/user-store";
@@ -26,7 +27,7 @@ const Header: React.FunctionComponent = () => {
 	};
 
 	return (
-		<div>
+		<div >
 			<ul>
 				<li>
 					<Link to="/">HOME</Link>
