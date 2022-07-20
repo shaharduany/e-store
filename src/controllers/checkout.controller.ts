@@ -83,6 +83,7 @@ async function assignCartHistory(userId: number, cart: ServerCart) {
 	}
 	const serverCartArr = cart.convertToArray();
 	let cartItemArr: number[] = [];
+	
 
 	for (let item of serverCartArr) {
 		const cartItem = await CartItem.create({
@@ -92,10 +93,11 @@ async function assignCartHistory(userId: number, cart: ServerCart) {
 		cartItemArr.push(cartItem.getDataValue("id"));
 		await cartItem.save();
 	}
-	
+	let price = await cart.getCartPrice();
 	const purchase = await Purchases.create({
 		products: cartItemArr,
 		buyer: userId,
+		price,
 	});
 	
 	const purchaseId = +purchase.getDataValue("id");

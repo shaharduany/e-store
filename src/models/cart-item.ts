@@ -22,7 +22,8 @@ CartItem.init({
         allowNull: false,
     }
 }, {
-    sequelize
+    sequelize,
+    modelName: "cart_item",
 });
 
 CartItem.sync();

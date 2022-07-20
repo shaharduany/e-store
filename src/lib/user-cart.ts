@@ -90,6 +90,24 @@ class ServerCart {
 
 		return arr;
 	}
+
+	async getCartPrice() {
+		let price = 0;
+
+		const ids: string[] | number[] = Object.keys(this.items);
+		
+		for (let i = 0; i < ids.length; i++) {
+			let id: string | number = +ids[i];
+
+			const product = await Product.findByPk(id);
+			if (!product) {
+				continue;
+			}
+			price += product.getDataValue("price");
+		}
+
+		return price;
+	}
 }
 
 export default ServerCart;

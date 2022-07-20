@@ -5,7 +5,7 @@ import { RootState } from "../../store/root-store";
 import { Role } from "../../store/user-store";
 import AdminPage from "../admin/main-view";
 import AccountComp from "./account-comp";
-import HistoryComp from "./history-comp";
+import HistoryComp from "./history/history-comp";
 
 const AccountView: React.FC = () => {
 	const user = useSelector((state: RootState) => state.user);
