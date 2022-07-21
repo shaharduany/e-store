@@ -1,3 +1,13 @@
-.button {
-    margin: "auto";
+@import "../variables//colors.scss";
+
+
+@mixin button-mixin (){
+    background-color: $button-color;
+    border-radius: 40px;
+    &:hover {
+        background-color: lighten($button-color,20%);
+    }
+    &:click {
+        background-color: darken($color: $button-color, $amount: 20%);
+    }
 }

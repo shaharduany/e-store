@@ -1,10 +1,19 @@
+@import "../variables//colors.scss", "../ui/Button.module.scss";
+
 .header{
     ul{
-        text-decoration: none;
         display: flex;
-        
         li {
-            padding: 30px;
+            list-style: none;
+            padding: 10px;
+            a {
+                text-decoration: none;
+            }
+        }
+        button{
+            border-radius: 40px;
+            background-color: $button-color;
+            @include button-mixin;
         }
     }
 }

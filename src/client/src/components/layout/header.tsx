@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, MouseEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import styles from '../../styles/layouts/header.module.scsss';
+import styles from "../../styles/layouts/Headers.module.scss";
 
 import { RootState } from "../../store/root-store";
 import { logout, Role } from "../../store/user-store";
@@ -27,7 +27,7 @@ const Header: React.FunctionComponent = () => {
 	};
 
 	return (
-		<div >
+		<div className={styles.header}>
 			<ul>
 				<li>
 					<Link to="/">HOME</Link>
@@ -39,11 +39,11 @@ const Header: React.FunctionComponent = () => {
 					<Link to="/cart">Cart Items: {cartLength}</Link>
 				</li>
 				{!isLogged && (
-					<div>
+					<li>
 						<a href={"http://localhost:4000/api/auth/login/google"}>
 							Join using Google
 						</a>
-					</div>
+					</li>
 				)}
 				{isAdmin && (
 					<li>
@@ -51,12 +51,12 @@ const Header: React.FunctionComponent = () => {
 					</li>
 				)}
 				{isLogged && (
-					<div>
+					<>
 						<li>
 							<Link to="/account">ACCOUNT</Link>
 						</li>
 						<button onClick={logoutClickHandler}>LOGOUT</button>
-					</div>
+					</>
 				)}
 			</ul>
 		</div>
