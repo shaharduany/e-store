@@ -5,3 +5,5 @@ export const googleClient = process.env.GOOGLE_CLIENT as string;
 export const googleSecret = process.env.GOOGLE_SECRET as string;
 
 export const SECRET = process.env.SECRET as string;
+
+export const REDIS_PORT = process.env.REDIS_PORT as string;

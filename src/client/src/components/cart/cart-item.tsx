@@ -14,7 +14,7 @@ const CartItem: React.FunctionComponent<CartItemCompI> = (props: CartItemCompI) 
 	const { id, title, description, price, item } = props;
 	return (
 		<div>
-			<ShopItem id={id} title={title} description={description} price={price} />
+			<ShopItem id={id} title={title} genre={"Aaaa"} description={description} price={price} />
 			<CartActions item={item} />
 		</div>
 	);

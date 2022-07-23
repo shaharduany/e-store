@@ -1,12 +1,12 @@
 import React from "react";
-import AddButton from "./add-item";
 import { ShopItemI } from "./shop-view";
+import styles from '../../styles/components/shop/Shop.module.scss'
 
 const ShopItem: React.FC<ShopItemI> = (props: ShopItemI) => {
-	const { title, description, price, id } = props;
+	const { title, description, price} = props;
 
 	return (
-		<div>
+		<div className={styles.shopItem}>
 			<div>
 				<h3>{title}</h3>
 			</div>
@@ -14,7 +14,7 @@ const ShopItem: React.FC<ShopItemI> = (props: ShopItemI) => {
 				<p>{description}</p>
 			</div>
 			<div>
-				<p>Price: {price}</p>
+				{price > 0 && <p>Price: {price}</p>}
 			</div>
 		</div>
 	);

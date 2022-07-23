@@ -23,6 +23,7 @@ import "./models/product";
 import "./models/purchases";
 
 import "./middlewware/auth.router";
+import "./lib/redis";
 
 import sequelize from "./models/pg-sequelize";
 import cookieParser from "cookie-parser";

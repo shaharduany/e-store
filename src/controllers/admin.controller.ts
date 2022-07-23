@@ -32,7 +32,7 @@ export const isAdmin: RequestHandler = async (req, res, next) => {
 
 export const postProductAdmin: RequestHandler = async (req, res, next) => {
 	const { genre, title, description, price } = req.body;
-	console.log(req.body);
+	//console.log(req.body);
 	if (!genre || !title || !description || !price) {
 
 		res.status(422).json({
@@ -62,7 +62,7 @@ async function createProductAsAdmin(
 ) {
 	const [genreMod, genreCreated] = await Genre.findOrCreate({
 		where: {
-			name: genre,
+			name: genre.toLocaleLowerCase(),
 		},
 	});
 

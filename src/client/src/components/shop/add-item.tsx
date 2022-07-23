@@ -23,6 +23,8 @@ const AddButton: React.FC<AddButtonI> = (props: AddButtonI ) => {
 				</div>
 			)}
 			<div>
+				<p>Genre: {item.genre}</p>
+				<p>Price: {item.price}</p>
 				<button onClick={purchaseClickHanlder}>ADD ITEM</button>
 			</div>
 		</div>

@@ -34,6 +34,7 @@ const CartView: React.FC = () => {
 							price={value[0].price}
 							id={value[0].id}
 							item={value}
+							genre={value[0].genre}
 						/>
 					</div>
 				))}

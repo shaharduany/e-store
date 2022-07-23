@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import { getShopItems } from "../../scripts/shop-scripts";
 import AddButton from "./add-item";
 import ShopItem from "./shop-item";
+import styles from "../../styles/components/shop/Shop.module.scss";
+import { Col, Row } from "react-flexbox-grid";
 
 export interface ShopItemI {
 	title: string;
 	id: number;
 	description: string;
 	price: number;
+	genre?: string;
 	image?: string;
 }
 
@@ -27,19 +30,24 @@ const ShopView: React.FunctionComponent = () => {
 	}, []);
 
 	return (
-		<div>
+		<div className={styles.shop}>
 			{message && <p>{message}</p>}
 			{products &&
 				products.map((value, index) => (
-					<div key={index}>
-						<ShopItem
-							title={value.title}
-							description={value.description}
-							price={value.price}
-							id={value.id}
-						/>
-						<AddButton item={value} />
-					</div>
+					<Row key={index}>
+						<Col>
+							<ShopItem
+								title={value.title}
+								description={value.description}
+								price={0}
+								id={value.id}
+								genre={value.genre}
+							/>
+						</Col>
+						<Col>
+							<AddButton item={value} />
+						</Col>
+					</Row>
 				))}
 		</div>
 	);

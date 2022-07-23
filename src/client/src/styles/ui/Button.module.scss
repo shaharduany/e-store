@@ -1,13 +1,14 @@
-@import "../variables//colors.scss";
 
-
-@mixin button-mixin (){
-    background-color: $button-color;
+@mixin button-mixin($color, $font-color: black){
+    background-color: $color;
     border-radius: 40px;
+    padding: 10px;
+    border: solid 1px;
+    color: $font-color;
     &:hover {
-        background-color: lighten($button-color,20%);
+        background-color: lighten($color, 20%);
     }
     &:click {
-        background-color: darken($color: $button-color, $amount: 20%);
+        background-color: darken($color, 20%);
     }
 }

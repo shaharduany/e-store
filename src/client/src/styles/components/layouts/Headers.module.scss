@@ -1,0 +1,24 @@
+@import "../../variables/header-vars.scss", "../../ui/Button.module.scss";
+
+.header{
+    background-color: $header-background;
+    text-align: center;
+    font-size: larger;
+    margin-bottom: 0px;
+    font-family: $header-font;
+    ul{
+        display: inline-flex;
+        align-items: center;
+        li {
+            list-style: none; 
+            padding: 10px;
+            a {
+                text-decoration: none;
+            }   
+            button{
+                padding: 15px;
+                @include button-mixin($button-color);
+            }
+        }
+    }
+}

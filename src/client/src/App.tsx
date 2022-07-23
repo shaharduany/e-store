@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import styles from './App.module.scss';
 import AccountView from "./components/account/account-view";
 import AdminPage from "./components/admin/main-view";
 import CartView from "./components/cart/cart-view";
@@ -10,7 +11,7 @@ import ShopView from "./components/shop/shop-view";
 
 const App: React.FC = () => {
 	return (
-		<div>
+		<div className={styles.app}>
 			<Router>
 				<div>
 					<Header />

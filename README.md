@@ -1,17 +1,16 @@
 # E-Store Project TypeScript
 
-
-## UNDER CONSTRCUTON
-Single page Web Application built using TypeScript
+Single page Web Application built using TypeScript. It's a store with sequel database using Sequelize ORM, React front with Redux for state management, designed using SCSS. The products can be filtered by genre, there's an admin view where admin / store owner can upload more products to the store, checkout using Stripe with credit card validator, using Redis for cachinc for high response rates, etc.
 
 ## Features:
-1. OAuth 2.0 using Passport.js, sign in with Google
+1. OAuth 2.0 passwordless authentication using Passport.js, sign in with Google.
 2. Sequel database managed with Sequelize ORMs and PostgreSQL
 3. Admin panel where you can dynmaically upload items with respected prices.
 4. Checkout using stripe
 5. 2 states managed by Redux
 5. Session stored automatically to a sequel database and loaded upon request
 6. Sales are kept in a database record
+7. Caching using Redis
 
 ## Libraries & Frameworks:
 1. TypeScript (back & front)
@@ -25,8 +24,5 @@ Single page Web Application built using TypeScript
 9. Swagger UI
 10. Stripe API
 11. Express Session
-12. Axios
-
-## Todo:
-1. Build account view where it displays all the history on one panel and account details on the other
-2. Once project complete - design with SCSS Bootstrap, and make SSR
+12. Redis
+13. Axios

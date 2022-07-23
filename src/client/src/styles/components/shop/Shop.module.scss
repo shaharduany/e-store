@@ -1,0 +1,14 @@
+@import "../../variables/shop-vars.scss", "../../ui//Button.module.scss";
+
+.shop {
+    background-color: $shop-background;
+    padding: 10px;
+    button {
+        margin-left: 10px;
+        @include button-mixin($shop-button);
+    }
+}
+
+.shopItem {
+    text-align: start;
+}
