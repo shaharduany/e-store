@@ -14,7 +14,9 @@ Single page Web Application built using TypeScript. It's a store with sequel dat
 
 ## Setup
 1. Run the following command at the terminal
+
 touch .env && npm i && cd src/client && npm i
+
 2. In your .env file, you should have the following data:
 
 GOOGLE_CLIENT=(Your Google Client ID goes here)
