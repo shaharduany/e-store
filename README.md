@@ -12,6 +12,18 @@ Single page Web Application built using TypeScript. It's a store with sequel dat
 6. Sales are kept in a database record
 7. Caching using Redis
 
+## Setup
+1. Run the following command at the terminal
+touch .env && npm i && cd src/client && npm i
+2. In your .env file, you should have the following data:
+GOOGLE_CLIENT=(Your Google Client ID goes here)
+GOOGLE_SECRET=(Your Google Secret hash goes here)
+SECRET=(random long string)
+STRIPE_KEY=(Your Stripe test / production key)
+URL=(your SERVER URL)
+CLIENT_URL=(Your CLIENT URL)
+REDIS_PORT=(Your Redis port, usually 6379)
+
 ## Libraries & Frameworks:
 1. TypeScript (back & front)
 2. Node.js & Express
